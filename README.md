@@ -143,9 +143,28 @@ void Dijkstra(Graph_t g, int vertex);
 Implemented a testing script for the program that looks at all txt files within the specified `--input` folder and pair it with the file with the file with the same name in the `--output` folder and verify that the program is running appropriately
 
 ```bash
-$ python3 tests/t1.py --input inputs/ --output outputs/
+$ ./compile.sh  # gcc *.c
+$ ./test.sh     # python3 tests/t1.py --input inputs/ --output outputs/
 Testing  inputs/1.txt outputs/1.txt
 Success
 Testing  inputs/2.txt outputs/2.txt
 Success
+Testing  inputs/3.txt outputs/3.txt
+Success
+Testing  inputs/4.txt outputs/4.txt
+Success
+Testing  inputs/5.txt outputs/5.txt
+Success
+Testing  inputs/6.txt outputs/6.txt
+Success
+Testing  inputs/7.txt outputs/7.txt
+Success
 ```
+
+## Test 7
+
+If there exist more than one path which all are minimum distance, one of them will be printed out. Which one is printed out depends on the input.
+
+# Source
+
+Project code available at : [https://github.com/AdityaNG/DAA_A2](https://github.com/AdityaNG/DAA_A2)

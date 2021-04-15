@@ -15,25 +15,21 @@ int main() {
     scanf("%d", &numVertices);
     Graph_t* input_graph = Graph_Init(numVertices);
     
-    int source, destination, weight, temp1, temp2;
+    int source, destination, weight; 
     
     for(int i = 0; i < numVertices; i++) {
-        destination = -1;
+
         scanf("%d", &source);
         char c;
-        while((c = getchar()) != '\n' && c != '\r') {
+        while((c = getchar()) != '\n' && c != '\r' && c != EOF) {
             
-            scanf("%d %d", &temp1, &temp2);
-            if(temp1 != destination) {
-                destination = temp1;
-                weight = temp2;
-                /* 
-                Note that the destination and source are reversed
-                This is to invert the input_graph
-                */
-                Graph_Append(input_graph, destination, source, weight);
-            }
-            else break;
+            scanf("%d %d", &destination, &weight);
+            
+            /* 
+             * Note that the destination and source are reversed
+             * This is to invert the input_graph
+             */
+            Graph_Append(input_graph, destination, source, weight);
         }        
     }
     
