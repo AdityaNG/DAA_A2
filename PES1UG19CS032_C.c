@@ -9,7 +9,7 @@
 
 #include "PES1UG19CS032_H.h"
 
-int main(){
+int main() {
     int numVertices;
     
     scanf("%d", &numVertices);
@@ -17,12 +17,14 @@ int main(){
     
     int source, destination, weight, temp1, temp2;
     
-    for(int i = 0; i < numVertices; i++){
-        scanf("%d", &source);            
+    for(int i = 0; i < numVertices; i++) {
+        destination = -1;
+        scanf("%d", &source);
         char c;
-        while((c = getchar()) != '\n' && c != '\r'){
+        while((c = getchar()) != '\n' && c != '\r') {
+            
             scanf("%d %d", &temp1, &temp2);
-            if(temp1 != destination){
+            if(temp1 != destination) {
                 destination = temp1;
                 weight = temp2;
                 /* 

@@ -9,7 +9,7 @@
 /*
  * Initialises adjacency list with n nodes 
  * */
-Graph_t* Graph_Init(int n){
+Graph_t* Graph_Init(int n) {
     Graph_t*graph = (Graph_t*)malloc(sizeof(Graph_t));
     graph->list = (AdjacencyList*)malloc(sizeof(AdjacencyList) * n);
     
@@ -25,7 +25,7 @@ Graph_t* Graph_Init(int n){
  * Appends a directional connection with a particular
  * DOES NOT HEAPIFY
  * */
-void Graph_Append(Graph_t* g, int source, int destination, int weight){
+void Graph_Append(Graph_t* g, int source, int destination, int weight) {
     Vertex *new = (Vertex*)malloc(sizeof(Vertex));
     new->weight = weight;
     new->id = destination - 1;
@@ -37,11 +37,11 @@ void Graph_Append(Graph_t* g, int source, int destination, int weight){
  * Frees all memory associated with the graph
  * Including the adj list
  * */
-void Graph_Destroy(Graph_t* g){
-    if(g){
-        for(int i = 0; i < g->numVertices; i++){ // Freeing the edges of the graph
+void Graph_Destroy(Graph_t* g) {
+    if(g) {
+        for(int i = 0; i < g->numVertices; i++) { // Freeing the edges of the graph
             Vertex *del;
-            while((del = g->list[i].head) != NULL){
+            while((del = g->list[i].head) != NULL) {
                 g->list[i].head = del->next;
                 free(del);
             }
@@ -52,25 +52,11 @@ void Graph_Destroy(Graph_t* g){
     return; 
 }
 
-Graph_t* Graph_Invert(Graph_t* g){ // Broken
-    Graph_t*inverted = Graph_Init(g->numVertices);
-    for(int i = 0; i < g->numVertices; i++){
-        Vertex *temp = g->list[i].head;
-        while(temp){
-            Graph_Append(inverted, temp->id, i, temp->weight);
-            temp = temp->next;
-        }
-    }
-    
-    inverted->numVertices = g->numVertices;
-    return inverted;
-}
-
 /*
  * Initialises heap with n slots
  * Including the position array
  * */
-MinHeap_t* Heap_Init(int n){
+MinHeap_t* Heap_Init(int n) {
     MinHeap_t* h = (MinHeap_t*)malloc(sizeof(MinHeap_t));
     h->heap = (Heap_Node*)malloc(sizeof(Heap_Node) * n);
     h->positionArray = (int*)malloc(sizeof(int) * n);
@@ -83,7 +69,7 @@ MinHeap_t* Heap_Init(int n){
  * Frees heap
  * Including the position array
  * */
-void Heap_Destroy(MinHeap_t* h){
+void Heap_Destroy(MinHeap_t* h) {
     free(h->positionArray);
     free(h->heap);
     free(h);
@@ -93,7 +79,7 @@ void Heap_Destroy(MinHeap_t* h){
  * Frees heap
  * Including the position array
  * */
-void Heap_Insert(MinHeap_t* h, int id, int distance, int predecessor){
+void Heap_Insert(MinHeap_t* h, int id, int distance, int predecessor) {
     if(h->currentSize == h->capacity) return; // Overflow
     h->heap[h->currentSize].id = id;
     h->heap[h->currentSize].distance = distance;
@@ -112,7 +98,7 @@ void Heap_Insert(MinHeap_t* h, int id, int distance, int predecessor){
  * Deletes 0th (smallest) element fromt heap
  * HEAPIFIES TOP DOWN
  * */
-int Heap_Delete(MinHeap_t* h){
+int Heap_Delete(MinHeap_t* h) {
     int retVal = h->heap[0].id;
     Heap_Node temp = h->heap[h->currentSize - 1];
     h->heap[h->currentSize - 1] = h->heap[0]; // Moving the smallest element in the heap to the end
@@ -123,7 +109,7 @@ int Heap_Delete(MinHeap_t* h){
     int parentPos = 0;
     int childPos = 2*parentPos + 1;
     Heap_Node parent = temp; // The last element in the heap will become the root when the minimum element from the heap is removed
-    while(childPos < h->currentSize){
+    while(childPos < h->currentSize) {
         Heap_Node child = h->heap[childPos];
 	// should look at both children and 
         if((childPos + 1 < h->currentSize) && child.distance > h->heap[childPos + 1].distance) // To get the smallest child
@@ -131,7 +117,7 @@ int Heap_Delete(MinHeap_t* h){
             child = h->heap[childPos + 1]; //  Smaller of the 2 children
 	    childPos++;
 	}
-        if(child.distance < parent.distance){
+        if(child.distance < parent.distance) {
             h->heap[parentPos] = child;
             h->positionArray[child.id] = parentPos;
             parentPos = childPos;
@@ -148,7 +134,7 @@ int Heap_Delete(MinHeap_t* h){
  * Deletes 0th (smallest) element fromt heap
  * HEAPIFIES BOTTOM UP
  * */
-void Heap_Update(MinHeap_t* h, int index, int newDistance, int newPredecessor){
+void Heap_Update(MinHeap_t* h, int index, int newDistance, int newPredecessor) {
     h->heap[index].predecessor = newPredecessor;
     h->heap[index].distance = newDistance;
 
@@ -156,9 +142,9 @@ void Heap_Update(MinHeap_t* h, int index, int newDistance, int newPredecessor){
     int childPos = index;
     int parentPos = (childPos-1)/2;
     Heap_Node child = h->heap[childPos];
-    while(parentPos >= 0 && childPos != parentPos){
+    while(parentPos >= 0 && childPos != parentPos) {
         Heap_Node parent = h->heap[parentPos];
-        if(parent.distance > child.distance){
+        if(parent.distance > child.distance) {
             h->heap[childPos] = parent; // A vertex slides down if its distance is greater
             h->positionArray[parent.id] = childPos;
             childPos = parentPos;
@@ -173,21 +159,21 @@ void Heap_Update(MinHeap_t* h, int index, int newDistance, int newPredecessor){
 /*
  * Returns the position of a particular id
  * */
-int Heap_Search(MinHeap_t* h, int id){
+int Heap_Search(MinHeap_t* h, int id) {
     return h->positionArray[id];
 }
 
 /*
  * Returns the current size of the heap after deletions
  * */
-int Heap_Size(MinHeap_t* h){
+int Heap_Size(MinHeap_t* h) {
     return h->currentSize;
 }
 
 /*
  * Returns the distance of a particular id from the destination
  * */
-int Heap_GetDistance(MinHeap_t* h, int index){
+int Heap_GetDistance(MinHeap_t* h, int index) {
     return h->heap[index].distance;
 }
 
@@ -201,15 +187,15 @@ int Heap_GetDistance(MinHeap_t* h, int index){
  * 
  * We print out this path for all nodes (except the destination itself)
  * */
-void printPath(MinHeap_t* h, int destination){
+void printPath(MinHeap_t* h, int destination) {
     int *parent = (int*)malloc(sizeof(int) * h->capacity);
     int *distance = (int*)malloc(sizeof(int) * h->capacity);
-    for(int i = 0; i < h->capacity; i++){
+    for(int i = 0; i < h->capacity; i++) {
         int j = h->heap[i].id;
         parent[j] = h->heap[i].predecessor;
         distance[j] = h->heap[i].distance;
     }
-    for(int i = 0; i < h->capacity; i++){
+    for(int i = 0; i < h->capacity; i++) {
         if(i == destination - 1) continue;
         printf("%d ", i+1);
         if(distance[i] == INT_MAX) printf("NO PATH\n");
@@ -232,14 +218,14 @@ void Dijkstra(Graph_t g, int vertex) {
     for(int i = 0; i < g.numVertices; i++) Heap_Insert(queue, i, INT_MAX, vertex-1);
     Heap_Update(queue, Heap_Search(queue, vertex-1), 0, vertex-1);
 
-    while(Heap_Size(queue) != 0){ // While priority queue is not empty
+    while(Heap_Size(queue) != 0) { // While priority queue is not empty
         int nearestNode = Heap_Delete(queue);
         int prevIndex = Heap_Search(queue, nearestNode);
         int distance = Heap_GetDistance(queue, prevIndex);
         Vertex *temp = g.list[nearestNode].head;
-        while(temp != NULL){
-            int index = Heap_Search(queue, temp->id); // Finding the position of this vertex in the MinHeap_ array
-            if(index < Heap_Size(queue)){ // Vertex is a part of the heap
+        while(temp != NULL) {
+            int index = Heap_Search(queue, temp->id); // Finding the position of this vertex in the MinHeap array
+            if(index < Heap_Size(queue)) { // Vertex is a part of the heap
                 int newDistance = distance + temp->weight;
                 int oldDistance = Heap_GetDistance(queue, index);
                 if(newDistance < oldDistance) Heap_Update(queue, index, newDistance, nearestNode);
